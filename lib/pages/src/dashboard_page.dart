@@ -3,7 +3,7 @@ import 'package:imc_calculator_db/styles/global_styles.dart';
 import 'package:imc_calculator_db/components/_components.dart';
 import 'package:imc_calculator_db/models/_models.dart';
 import 'package:imc_calculator_db/blocks/_blocks.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:imc_calculator_db/utils/_utils.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -13,6 +13,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  late Profile _prof;
   Person? person;
 
   void deleteImc({required String id}) {
@@ -40,27 +41,17 @@ class _DashboardPageState extends State<DashboardPage> {
     Navigator.pop(context);
   }
 
-  Future<void> getPerson() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String name = prefs.getString('name')!;
+  void getPerson() {
+    String name = _prof.getString('name')!;
 
     person = Person(name: name);
   }
 
   @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  //   Map<dynamic, dynamic> args =
-  //       ModalRoute.of(context)!.settings.arguments as Map<dynamic, dynamic>;
-
-  //   person = Person(name: args['name']);
-  // }
-
   void initState() {
-    getPerson();
+    _prof = Profile();
 
+    getPerson();
     super.initState();
   }
 

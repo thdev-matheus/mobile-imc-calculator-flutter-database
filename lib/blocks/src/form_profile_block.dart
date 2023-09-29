@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imc_calculator_db/components/_components.dart';
 import 'package:imc_calculator_db/utils/_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FormProfile extends StatefulWidget {
   const FormProfile({super.key});
@@ -11,13 +10,12 @@ class FormProfile extends StatefulWidget {
 }
 
 class _FormProfileState extends State<FormProfile> {
+  late Profile _prof;
   TextEditingController nameController = TextEditingController();
   String? nameError;
 
   Future<void> handleSave() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString('name', nameController.text);
+    await _prof.saveString('name', nameController.text);
   }
 
   bool validationFields(String text) {
@@ -51,6 +49,12 @@ class _FormProfileState extends State<FormProfile> {
         remove: true,
       );
     }
+  }
+
+  @override
+  void initState() {
+    _prof = Profile();
+    super.initState();
   }
 
   @override

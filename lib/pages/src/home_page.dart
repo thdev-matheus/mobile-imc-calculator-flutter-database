@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:imc_calculator_db/components/_components.dart';
 import 'package:imc_calculator_db/styles/global_styles.dart';
 import 'package:imc_calculator_db/utils/_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,10 +11,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late SharedPreferences _prefs;
+  late Profile _prof;
 
   void handleNext() {
-    String? name = _prefs.getString('name');
+    String? name = _prof.getString('name');
+
+    debugPrint(name);
 
     if (name == null) {
       navigator(
@@ -32,13 +33,9 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> getInstance() async {
-    _prefs = await Profile.getPreferences();
-  }
-
   @override
   void initState() {
-    getInstance();
+    _prof = Profile();
     super.initState();
   }
 

@@ -9,12 +9,14 @@ List<dynamic> cardListBlock({
 }) {
   Map<String, dynamic>? data = person?.getData();
 
-  List<dynamic> cards = data?['results']
-      .map((imc) => ImcCard(
-            imc: imc,
-            deleteImc: deleteImc,
-          ))
-      .toList();
+  List<dynamic> cards = data != null
+      ? data['results']
+          .map((imc) => ImcCard(
+                imc: imc,
+                deleteImc: deleteImc,
+              ))
+          .toList()
+      : [];
 
   if (cards.isEmpty) {
     return [

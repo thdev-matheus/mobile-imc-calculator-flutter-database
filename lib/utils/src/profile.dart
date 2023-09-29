@@ -3,15 +3,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Profile {
   static SharedPreferences? _prefs;
 
-  Profile._();
+  Profile() {
+    getPreferences();
+  }
 
-  static Future<SharedPreferences> getPreferences() async {
-    if (_prefs != null) {
-      return _prefs!;
-    } else {
-      _prefs = await SharedPreferences.getInstance();
+  static Future<void> getPreferences() async {
+    _prefs ??= await SharedPreferences.getInstance();
+  }
 
-      return _prefs!;
-    }
+  Future<void> saveString(String key, String value) async {
+    await _prefs!.setString(key, value);
+  }
+
+  String? getString(String key) {
+    String? value = _prefs!.getString(key);
+
+    return value;
   }
 }
