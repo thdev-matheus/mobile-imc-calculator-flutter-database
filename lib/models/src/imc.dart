@@ -15,17 +15,23 @@ class Imc {
 
   void setHeight({required double height}) => _height = height;
 
-  Future<void> setDayHour() async {
-    DateTime now = DateTime.now().subtract(const Duration(hours: 3));
+  Future<void> setDayHour(String? hourDB, String? dayDB) async {
+    if (hourDB != null && dayDB != null) {
+      _hour = hourDB;
+      _day = dayDB;
+    } else {
+      DateTime now = DateTime.now().subtract(const Duration(hours: 3));
 
-    DateFormat formatterDay = DateFormat('dd/MM/yy', 'pt_BR');
-    DateFormat formatterHour = DateFormat('HH', 'pt_BR');
-    DateFormat formatterMinute = DateFormat('mm', 'pt_BR');
+      DateFormat formatterDay = DateFormat('dd/MM/yy', 'pt_BR');
+      DateFormat formatterHour = DateFormat('HH', 'pt_BR');
+      DateFormat formatterMinute = DateFormat('mm', 'pt_BR');
 
-    String hour = '${formatterHour.format(now)}h${formatterMinute.format(now)}';
+      String hour =
+          '${formatterHour.format(now)}h${formatterMinute.format(now)}';
 
-    _day = formatterDay.format(now);
-    _hour = hour;
+      _day = formatterDay.format(now);
+      _hour = hour;
+    }
   }
 
   void setImc() {
@@ -34,7 +40,7 @@ class Imc {
     _imc = double.parse(fixedImc);
   }
 
-  Map<String, dynamic> getData() => {
+  Map<String, dynamic> get data => {
         "id": _id,
         "day": _day,
         "hour": _hour,
@@ -43,10 +49,15 @@ class Imc {
         "imc": _imc,
       };
 
-  Imc({required double weight, required double height}) {
+  Imc({
+    required double weight,
+    required double height,
+    String? dayDB,
+    String? hourDB,
+  }) {
     _weight = weight;
     _height = height;
     setImc();
-    setDayHour();
+    setDayHour(hourDB, dayDB);
   }
 }

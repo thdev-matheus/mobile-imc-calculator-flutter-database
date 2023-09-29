@@ -32,7 +32,7 @@ class ImcCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> imcData = imc.getData();
+    Map<String, dynamic> imcData = imc.data;
 
     return InkWell(
       onLongPress: () => deleteImc(id: imcData['id']),

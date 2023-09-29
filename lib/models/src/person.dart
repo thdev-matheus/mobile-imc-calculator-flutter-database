@@ -11,7 +11,7 @@ class Person {
   void addImc({required Imc imc}) => _results.insert(0, imc);
 
   void removeImc({required String id}) {
-    _results.removeWhere((imc) => imc.getData()["id"] == id);
+    _results.removeWhere((imc) => imc.data["id"] == id);
   }
 
   Person({required String name}) {
