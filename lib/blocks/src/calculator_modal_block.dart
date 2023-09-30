@@ -55,6 +55,8 @@ class _CalculatorModalBlockState extends State<CalculatorModalBlock> {
         weight: double.parse(weightController.text.replaceAll(',', '.')),
         height: double.parse(heightController.text.replaceAll(',', '.')),
       );
+
+      Navigator.pop(context);
     }
   }
 

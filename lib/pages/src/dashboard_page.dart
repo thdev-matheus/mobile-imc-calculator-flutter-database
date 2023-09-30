@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imc_calculator_db/repositories/_repositories.dart';
 import 'package:imc_calculator_db/styles/global_styles.dart';
 import 'package:imc_calculator_db/components/_components.dart';
 import 'package:imc_calculator_db/models/_models.dart';
@@ -13,45 +14,68 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late Profile _prof;
-  Person? person;
+  late ImcRepository imcRepository;
+  Person person = Person(name: '');
 
   void deleteImc({required String id}) {
     showDialog(
       context: context,
       builder: (BuildContext bc) {
         return RemoveImcModal(
-          actionRemove: () {
-            person?.removeImc(id: id);
+          actionRemove: () async {
+            person.removeImc(id: id);
+            await imcRepository.saveData(person.data['results']);
             setState(() {});
-            Navigator.pop(context);
           },
         );
       },
     );
   }
 
-  void calculate({
+  Future<void> calculate({
     required double weight,
     required double height,
-  }) {
+  }) async {
     Imc newImc = Imc(weight: weight, height: height);
-    person?.addImc(imc: newImc);
+    person.addImc(imc: newImc);
+    await imcRepository.saveData(person.data['results']);
     setState(() {});
-    Navigator.pop(context);
   }
 
-  void getPerson() {
-    String name = _prof.getString('name')!;
+  Future<void> getData() async {
+    imcRepository = await ImcRepository.loadRepository();
 
-    person = Person(name: name);
+    var results = imcRepository.loadData();
+
+    for (var item in results) {
+      Imc imc = Imc(
+        weight: item['weight'],
+        height: item['height'],
+        dayDB: item['day'],
+        hourDB: item['hour'],
+      );
+
+      person.addImc(imc: imc);
+    }
+
+    String? name = Profile.getString('name');
+
+    if (name != null) {
+      setState(() {
+        person.setName(name);
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
   void initState() {
-    _prof = Profile();
-
-    getPerson();
+    // TODO: implement initState
+    getData();
     super.initState();
   }
 
@@ -64,7 +88,7 @@ class _DashboardPageState extends State<DashboardPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
           children: [
             Text(
-              'Resultados para: ${person?.getData()['name']}',
+              'Resultados para: ${person.data['name']}',
               textAlign: TextAlign.center,
               style: primaryTextStyle(
                 size: 30,

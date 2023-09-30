@@ -51,7 +51,10 @@ class _RemoveImcModalState extends State<RemoveImcModal> {
         ),
         separator(width: 8),
         InkWell(
-          onTap: widget.actionRemove,
+          onTap: () {
+            widget.actionRemove();
+            Navigator.pop(context);
+          },
           child: Text(
             'sim',
             style: primaryTextStyle(

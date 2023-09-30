@@ -6,7 +6,7 @@ class ImcRepository {
 
   ImcRepository._create();
 
-  Future<ImcRepository> loadRepository() async {
+  static Future<ImcRepository> loadRepository() async {
     if (Hive.isBoxOpen('calculators')) {
       _box = Hive.box('calculators');
     } else {
@@ -16,34 +16,18 @@ class ImcRepository {
     return ImcRepository._create();
   }
 
-  List<Imc> loadData() {
-    List<Imc> response = [];
-
+  List<dynamic> loadData() {
     var results = _box.get('results');
 
-    if (results == null) {
-      return [];
-    } else {
-      results.map((item) {
-        Imc imc = Imc(
-          weight: item['weight'],
-          height: item['height'],
-          dayDB: item['day'],
-          hourDB: item['hour'],
-        );
-        response.add(imc);
-      });
-
-      return response;
-    }
+    return results;
   }
 
   Future<void> saveData(List<Imc> results) async {
     List<Map<String, dynamic>> resultsMap = [];
 
-    results.map((imc) {
+    for (var imc in results) {
       resultsMap.add(imc.data);
-    });
+    }
 
     await _box.put('results', resultsMap);
   }

@@ -7,7 +7,7 @@ List<dynamic> cardListBlock({
   required Person? person,
   required void Function({required String id}) deleteImc,
 }) {
-  Map<String, dynamic>? data = person?.getData();
+  Map<String, dynamic>? data = person?.data;
 
   List<dynamic> cards = data != null
       ? data['results']

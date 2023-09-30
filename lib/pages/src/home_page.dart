@@ -11,12 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Profile _prof;
-
   void handleNext() {
-    String? name = _prof.getString('name');
-
-    debugPrint(name);
+    String? name = Profile.getString('name');
 
     if (name == null) {
       navigator(
@@ -35,7 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _prof = Profile();
+    Profile.getPreferences();
     super.initState();
   }
 

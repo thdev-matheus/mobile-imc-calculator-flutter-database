@@ -4,7 +4,7 @@ class Person {
   late String _name;
   final List<Imc> _results = [];
 
-  Map<String, dynamic> getData() => {"name": _name, "results": _results};
+  Map<String, dynamic> get data => {"name": _name, "results": _results};
 
   void setName(String name) => _name = name;
 

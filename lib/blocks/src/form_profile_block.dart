@@ -10,12 +10,11 @@ class FormProfile extends StatefulWidget {
 }
 
 class _FormProfileState extends State<FormProfile> {
-  late Profile _prof;
   TextEditingController nameController = TextEditingController();
   String? nameError;
 
   Future<void> handleSave() async {
-    await _prof.saveString('name', nameController.text);
+    await Profile.saveString('name', nameController.text);
   }
 
   bool validationFields(String text) {
@@ -53,7 +52,7 @@ class _FormProfileState extends State<FormProfile> {
 
   @override
   void initState() {
-    _prof = Profile();
+    Profile.getPreferences();
     super.initState();
   }
 
