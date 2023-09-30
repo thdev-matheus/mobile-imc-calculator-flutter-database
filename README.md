@@ -16,6 +16,10 @@
 
 Aplicação mobile que visa ser uma simples calculadora de IMC e que permite você fazer vários cálculos sem perder os resultados anteriores.
 
+Além disso, salva localmente os resultdaos obtidos para que se possa, ao abrir novamente a aplicação ter acesso aos dados calculados.
+
+Essa aplicação faz uso do pacote Shared_Preferences e do Hive que é um banco de dados NoSQL.
+
 <br/>
 <br/>
 <div style="display: inline-block">
