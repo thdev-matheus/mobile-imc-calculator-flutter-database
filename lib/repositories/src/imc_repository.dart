@@ -19,7 +19,11 @@ class ImcRepository {
   List<dynamic> loadData() {
     var results = _box.get('results');
 
-    return results;
+    if (results != null) {
+      return results;
+    } else {
+      return [];
+    }
   }
 
   Future<void> saveData(List<Imc> results) async {
